@@ -5,7 +5,7 @@
 	"server": {
 		"PROTOCOL": "http",
 		"HOST": "localhost",
-		"PORT": 80
+		"PORT": 8080
 	},
 	"database": {
 		"HOST": "ds153198.mlab.com",
