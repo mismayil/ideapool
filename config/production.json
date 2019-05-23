@@ -3,8 +3,8 @@
 		"LOG_LEVEL": "info"
 	},
 	"server": {
-		"PROTOCOL": "http",
-		"HOST": "localhost",
+		"PROTOCOL": "https",
+		"HOST": "api-ideapool.herokuapp.com",
 		"PORT": 8080
 	},
 	"database": {
