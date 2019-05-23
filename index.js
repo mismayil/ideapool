@@ -20,7 +20,7 @@ const Response = require(__basedir+'/api/response')
 const authRouter = require(__basedir+'/api/routes/auth.route')
 const meRouter = require(__basedir+'/api/routes/me.route')
 const userRouter = require(__basedir+'/api/routes/user.route')
-const ideaRouter = require(__basedir='/api/routes/idea.route')
+const ideaRouter = require(__basedir+'/api/routes/idea.route')
 // require(__basedir+'/api/passport')
 
 let app = express()
@@ -43,16 +43,16 @@ app.use(morgan('combined', {
 
 // routers
 app.use('/access-tokens', authRouter)
-app.use(Request.authenticate(Request.strategies.JWT))
-app.use('/me', meRouter)
 app.use('/users', userRouter)
-app.use('/ideas', ideaRouter)
+app.use('/me', Request.authenticate(Request.strategies.JWT), meRouter)
+app.use('/ideas', Request.authenticate(Request.strategies.JWT), ideaRouter)
 app.use(Response.handleError)
 
 app.set('init', async function() {
     logger.info('Initializing app...');
     try {
       await Database.init()
+      await Request.init()
     } catch (err) {
         logger.error('App initialization failed. %s', err)
     }
