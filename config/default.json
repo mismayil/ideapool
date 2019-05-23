@@ -1,0 +1,20 @@
+{
+	"app": {
+		"LOG_LEVEL": "info"
+	},
+	"server": {
+		"PROTOCOL": "http",
+		"HOST": "localhost",
+		"PORT": 6060
+	},
+	"database": {
+		"HOST": "ds153198.mlab.com",
+		"PORT": 53198,
+		"DB": "destin-test",
+		"USER": "mismayil",
+		"PASS": "mete0000"
+	},
+	"api": {
+		"SECRET": "somesecret"
+	}
+}

@@ -1,0 +1,33 @@
+{
+  "name": "ideapool",
+  "version": "1.0.0",
+  "description": "Record your ideas before you forget them",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=dev nodemon index.js",
+    "start:production": "NODE_ENV=production node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mismayil/ideapool.git"
+  },
+  "keywords": [
+    "ideas",
+    "ideapool"
+  ],
+  "author": "Mahammad Ismayilzada",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mismayil/ideapool/issues"
+  },
+  "homepage": "https://github.com/mismayil/ideapool#readme",
+  "dependencies": {
+    "config": "^3.1.0",
+    "express": "^4.17.0",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
+  }
+}
