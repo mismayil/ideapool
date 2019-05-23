@@ -8,11 +8,7 @@
 		"PORT": 8080
 	},
 	"database": {
-		"HOST": "ds153198.mlab.com",
-		"PORT": 53198,
-		"DB": "destin-test",
-		"USER": "mismayil",
-		"PASS": "mete0000"
+		"URI": "mongodb://heroku_g081q6r9:dchsg903ri1a06udkdoqd1aq11@ds123499.mlab.com:23499/heroku_g081q6r9"
 	},
 	"api": {
 		"SECRET": "somesecret"

@@ -14,6 +14,13 @@ const morgan = require('morgan')
 
 const utils = require(__basedir+'/libs/utils');
 const logger = require(__basedir+'/libs/logger')
+const Database = require(__basedir+'/db/database')
+const Request = require(__basedir+'/api/request')
+const Response = require(__basedir+'/api/response')
+const authRouter = require(__basedir+'/api/routes/auth.route')
+const meRouter = require(__basedir+'/api/routes/me.route')
+const userRouter = require(__basedir+'/api/routes/user.route')
+const ideaRouter = require(__basedir='/api/routes/idea.route')
 // require(__basedir+'/api/passport')
 
 let app = express()
@@ -35,13 +42,17 @@ app.use(morgan('combined', {
 }))
 
 // routers
-app.use('/static', express.static('public'))
-// app.use(Response.handleError)
+app.use('/access-tokens', authRouter)
+app.use(Request.authenticate(Request.strategies.JWT))
+app.use('/me', meRouter)
+app.use('/users', userRouter)
+app.use('/ideas', ideaRouter)
+app.use(Response.handleError)
 
 app.set('init', async function() {
     logger.info('Initializing app...');
     try {
-      logger.info('App initialized')
+      await Database.init()
     } catch (err) {
         logger.error('App initialization failed. %s', err)
     }
