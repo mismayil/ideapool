@@ -28,7 +28,9 @@ Database.connect = async function() {
 
     let options = {
         promiseLibrary: bluebird,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false
     }
 
     try {

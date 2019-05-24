@@ -6,7 +6,7 @@ const APISchema = require(__basedir+'/api/schema')
 let signupSchema = {
   '$id': 'http://api-ideapool.herokuapp.com/schemas/signup.json',
   title: 'Sign up',
-  description: 'User Signup',
+  description: 'User Signup Schema',
   type: 'object',
   properties: {
     email: {

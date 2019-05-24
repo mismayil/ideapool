@@ -4,7 +4,9 @@ let Schema = {}
 
 Schema.names = {
   ID: 'ID',
-  SIGNUP: 'signup'
+  SIGNUP: 'signup',
+  LOGIN: 'login',
+  REFRESH_TOKEN: 'refresh-token'
 }
 
 Schema.formats = {

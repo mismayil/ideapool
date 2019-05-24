@@ -3,7 +3,7 @@
 const shortid = require('shortid')
 
 const mongoose = require(__basedir+'/libs/mongoose')
-const Database = require(__basedir+'/database/database')
+const Database = require(__basedir+'/db/database')
 const Validation = require(__basedir+'/libs/validation')
 
 let schemaOptions = {

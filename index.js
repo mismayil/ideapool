@@ -21,7 +21,7 @@ const authRouter = require(__basedir+'/api/routes/auth.route')
 const meRouter = require(__basedir+'/api/routes/me.route')
 const userRouter = require(__basedir+'/api/routes/user.route')
 const ideaRouter = require(__basedir+'/api/routes/idea.route')
-// require(__basedir+'/api/passport')
+require(__basedir+'/api/passport')
 
 let app = express()
 

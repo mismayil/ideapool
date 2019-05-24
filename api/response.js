@@ -34,7 +34,12 @@ Response.errors = {
   PASSWORD_REQUIRED: 'password',
   NAME_REQUIRED: 'name',
   INVALID_EMAIL: 'Email is invalid',
-  INVALID_PASSWORD: 'Password at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number'
+  INVALID_PASSWORD: 'Password at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number',
+  EMAIL_TAKEN: 'Email has already been taken',
+  REFRESH_TOKEN_REQUIRED: 'refresh_token',
+  REFRESH_TOKEN_NOT_FOUND: 'refresh token not found',
+  INVALID_LOGIN: 'Either email or password is incorrect',
+  UNAUTHORIZED: 'you can not pass!'
 }
 
 Response.isOK = function(status) {
@@ -50,8 +55,8 @@ Response.send = function(res, body, status=Response.status.CREATED) {
   return res.status(status).json(body)
 }
 
-Response.sendData = function(res, data) {
-  return Response.send(res, data)
+Response.sendData = function(res, data, status) {
+  return Response.send(res, data, status)
 }
 
 Response.sendError = function(res, error=Response.errors.UNKNOWN_ERROR, status=Response.status.BAD_REQUEST) {

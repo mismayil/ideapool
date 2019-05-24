@@ -7,7 +7,6 @@ const _ = require('lodash')
 
 const ajv = require(__basedir+'/libs/ajv')
 const logger = require(__basedir+'/libs/logger')
-// const User = require(__basedir+'/models/schemas/user')
 const Response = require(__basedir+'/api/response')
 const APISchema = require(__basedir+'/api/schema')
 const Validation = require(__basedir+'/libs/validation')
@@ -15,12 +14,14 @@ const Validation = require(__basedir+'/libs/validation')
 // schemas
 const idSchema = require(__basedir+'/api/schemas/id')
 const signupSchema = require(__basedir+'/api/schemas/signup')
+const refreshTokenSchema = require(__basedir+'/api/schemas/refresh-token')
+const loginSchema = require(__basedir+'/api/schemas/login')
 
 let Request = {}
 
 Request.strategies = {
-    JWT: 'JWT',
-    BASIC: 'BASIC'
+  JWT: 'JWT',
+  LOCAL: 'LOCAL'
 }
 
 Request.data = {
@@ -32,6 +33,8 @@ Request.init = function() {
   // add schemas
   ajv.addSchema(idSchema, APISchema.names.ID)
   ajv.addSchema(signupSchema, APISchema.names.SIGNUP)
+  ajv.addSchema(refreshTokenSchema, APISchema.names.REFRESH_TOKEN)
+  ajv.addSchema(loginSchema, APISchema.names.LOGIN)
 
   // add formats
   ajv.addFormat(APISchema.formats.ID, Validation.isID)
@@ -39,48 +42,34 @@ Request.init = function() {
   ajv.addFormat(APISchema.formats.PASSWORD, Validation.isPassword)
 }
 
-Request.verifyJWT = async function(token) {
-    try {
-        let payload = jwt.verify(token, config.get('api.SECRET'))
-        if (payload) {
-            let user = await User.findById(payload.user.id)
-            if (user) return user
-        }
-    } catch (err) {
-        logger.error(String(err))
+Request.authenticateJWT = function(req, res, next) {
+  passport.authenticate('jwt', {session: false}, function(err, user) {
+    req.user = user
+    if (user) return next()
+    if (err) return Response.sendError(res, err, Response.status.UNAUTHORIZED)
+    Response.sendError(res, Response.errors.UNAUTHORIZED, Response.status.UNAUTHORIZED)
+  })(req, res, next)
+}
+
+Request.authenticateLocal = function(req, res, next) {
+  passport.authenticate('local', {session: false}, function(err, user) {
+    if (user) {
+      req.user = user
+      return next()
     }
 
-    return null
-}
+    if (err) return Response.sendError(res, err, Response.status.CONFLICT)
 
-Request.authenticateJWT = function(req, res, next) {
-    passport.authenticate('jwt', {session: false}, function(err, user) {
-        req.user = user
-        if (user) return next()
-        if (err) return Response.sendError(res, err)
-        res.sendStatus(Response.status.UNAUTHORIZED)
-    })(req, res, next)
-}
-
-Request.authenticateBasic = function(req, res, next) {
-    passport.authenticate('basic', {session: false}, function(err, user) {
-        if (user) {
-            req.user = user
-            return next()
-        }
-
-        if (err) return res.status(Response.status.BAD_REQUEST).json({error: err})
-
-        res.sendStatus(Response.status.UNAUTHORIZED)
-    })(req, res, next)
+    Response.sendError(res, Response.errors.INVALID_LOGIN, Response.status.CONFLICT)
+  })(req, res, next)
 }
 
 Request.authenticate = function(strategy) {
-    switch (strategy) {
-        case Request.strategies.JWT: return Request.authenticateJWT
-        case Request.strategies.BASIC: return Request.authenticateBasic
-    }
-    return function() {}
+  switch (strategy) {
+    case Request.strategies.JWT: return Request.authenticateJWT
+    case Request.strategies.LOCAL: return Request.authenticateLocal
+  }
+  return function() {}
 }
 
 Request.validateData = function(obj, schemaName) {
