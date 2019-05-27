@@ -1,6 +1,7 @@
 'use strict';
 
 const shortid = require('shortid')
+const moment = require('moment')
 
 const mongoose = require(__basedir+'/libs/mongoose')
 const Database = require(__basedir+'/db/database')
@@ -14,10 +15,14 @@ schemaOptions.toJSON = {
   versionKey: false,
   transform: function(doc, ret, options) {
       ret.id = ret.key
+      ret.created_at = moment(ret.createdAt).unix()
+      ret.average_score = (ret.impact + ret.ease + ret.confidence) / 3
       delete ret.key
       delete ret.user
       delete ret._id
-      return ret;
+      delete ret.createdAt
+      delete ret.updatedAt
+      return ret
   }
 }
 
@@ -32,6 +37,7 @@ const ideaSchema = new mongoose.Schema({
   },
   content: {
     type: String,
+    minlength: 1,
     maxlength: 255
   },
   impact: {

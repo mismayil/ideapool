@@ -1,6 +1,8 @@
 'use strict';
 
 const bcrypt = require('bcryptjs')
+const md5 = require('md5')
+const _ = require('lodash')
 
 const mongoose = require(__basedir+'/libs/mongoose')
 const Database = require(__basedir+'/db/database')
@@ -9,6 +11,19 @@ const Validation = require(__basedir+'/libs/validation')
 let schemaOptions = {
     timestamps: {}
 }
+
+schemaOptions.toJSON = {
+    versionKey: false,
+    transform: function(doc, ret, options) {
+        delete ret._id
+        delete ret.password
+        delete ret.token
+        delete ret.createdAt
+        delete ret.updatedAt
+        ret.avatar_url = `https://www.gravatar.com/avatar/${md5(_.toLower(_.trim(ret.email)))}?d=mm&s=200`
+        return ret
+    }
+  }
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -49,6 +64,10 @@ userSchema.methods.comparePassword = function(password) {
 userSchema.methods.getModelName = function() {
     return Database.models.User.NAME
 }
+
+userSchema.methods.getJSON = function() {
+    return this.toJSON()
+  }
 
 let User = mongoose.model(Database.models.User.NAME, userSchema)
 

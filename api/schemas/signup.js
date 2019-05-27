@@ -12,8 +12,7 @@ let signupSchema = {
     email: {
       type: 'string',
       format: APISchema.formats.EMAIL,
-      default: '',
-      minLength: 1,
+      notEmpty: true,
       errors: {
         required: {
           error: Response.errors.EMAIL_REQUIRED
@@ -26,8 +25,7 @@ let signupSchema = {
     password: {
       type: 'string',
       format: APISchema.formats.PASSWORD,
-      minLength: 1,
-      default: '',
+      notEmpty: true,
       errors: {
         required: {
           error: Response.errors.PASSWORD_REQUIRED
@@ -39,8 +37,7 @@ let signupSchema = {
     },
     name: {
       type: 'string',
-      minLength: 1,
-      default: '',
+      notEmpty: true,
       errors: {
         required: {
           error: Response.errors.NAME_REQUIRED

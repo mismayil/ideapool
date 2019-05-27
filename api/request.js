@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const passport = require('passport')
 const _ = require('lodash')
+const validator = require('validator')
 
 const ajv = require(__basedir+'/libs/ajv')
 const logger = require(__basedir+'/libs/logger')
@@ -12,10 +13,10 @@ const APISchema = require(__basedir+'/api/schema')
 const Validation = require(__basedir+'/libs/validation')
 
 // schemas
-const idSchema = require(__basedir+'/api/schemas/id')
 const signupSchema = require(__basedir+'/api/schemas/signup')
 const refreshTokenSchema = require(__basedir+'/api/schemas/refresh-token')
 const loginSchema = require(__basedir+'/api/schemas/login')
+const ideaSchema = require(__basedir+'/api/schemas/idea')
 
 let Request = {}
 
@@ -30,16 +31,38 @@ Request.data = {
 }
 
 Request.init = function() {
+  // add keywords
+  ajv.addKeyword('notEmpty', {
+    validate: function (schema, data) {
+      return _.isNumber(data) || !_.isEmpty(data)
+    },
+    errors: false
+  })
+
+  ajv.addKeyword('number', {
+    validate: function (schema, data) {
+      return validator.isNumeric(String(data))
+    },
+    errors: false
+  })
+
+  ajv.addKeyword('integer', {
+    validate: function (schema, data) {
+      return validator.isInt(String(data))
+    },
+    errors: false
+  })
+
   // add schemas
-  ajv.addSchema(idSchema, APISchema.names.ID)
   ajv.addSchema(signupSchema, APISchema.names.SIGNUP)
   ajv.addSchema(refreshTokenSchema, APISchema.names.REFRESH_TOKEN)
   ajv.addSchema(loginSchema, APISchema.names.LOGIN)
+  ajv.addSchema(ideaSchema, APISchema.names.IDEA)
 
   // add formats
-  ajv.addFormat(APISchema.formats.ID, Validation.isID)
   ajv.addFormat(APISchema.formats.EMAIL, Validation.isEmail)
   ajv.addFormat(APISchema.formats.PASSWORD, Validation.isPassword)
+  ajv.addFormat(APISchema.formats.SCORE, Validation.isScore)
 }
 
 Request.authenticateJWT = function(req, res, next) {
@@ -83,6 +106,8 @@ Request.validateData = function(obj, schemaName) {
     let schemaObject = ajv.getSchema(schemaName)
     let schema = schemaObject.schema
 
+    console.log(ajv.errors)
+
     if (!_.isEmpty(ajv.errors)) {
       let requiredError = null
       let validationErrors = []
@@ -93,28 +118,38 @@ Request.validateData = function(obj, schemaName) {
           let property = schema.properties[prop]
           
           if (property && property.errors && property.errors.required) {
-            requiredError = property.errors.required.error
+            requiredError = property.errors.required
           }
 
           break
-        }
-
-        if (error.keyword === 'format' || error.keyword === 'minLength') {
+        } else {
           let prop = error.dataPath.substring(1)
           let property = _.get(schema.properties, prop)
           
           if (property && property.errors) {
-            if (error.keyword === 'minLength' && property.errors.required) {
-              requiredError = property.errors.required.error
+            if (error.keyword === 'notEmpty' && property.errors.required) {
+              requiredError = property.errors.required
               break
-            } else if (property.errors.format) validationErrors.push(property.errors.format.error)
+            } else if (error.keyword === 'type' && property.errors.type) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.type})
+            } else if (error.keyword === 'number' && property.errors.number) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.number})
+            } else if (error.keyword === 'minimum' && property.errors.minimum) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.minimum})
+            } else if (error.keyword === 'maximum' && property.errors.maximum) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.maximum})
+            } else if (error.keyword === 'integer' && property.errors.integer) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.integer})
+            } else if (property.errors.format) {
+              if (!_.find(validationErrors, err => err.prop === prop)) validationErrors.push({prop: prop, message: property.errors.format})
+            }
           }
         }
       }
 
       if (requiredError) return Response.sendError(res, `${Response.errors.REQUIRED}: ${requiredError}`, Response.status.BAD_REQUEST)
 
-      if (!_.isEmpty(validationErrors)) return Response.sendError(res, `${Response.errors.INVALID}: ${validationErrors.join(', ')}`, Response.status.UNPROCESSABLE)
+      if (!_.isEmpty(validationErrors)) return Response.sendError(res, `${Response.errors.INVALID}: ${validationErrors.map(err => err.message).join(', ')}`, Response.status.UNPROCESSABLE)
 
       return Response.sendError(res, Response.errors.UNKNOWN)
     }
@@ -124,10 +159,6 @@ Request.validateData = function(obj, schemaName) {
 }
 
 Request.validate = function(schemaName) {
-  if (schemaName === APISchema.names.ID) {
-    return Request.validateData(Request.data.PARAMS, schemaName)
-  }
-
   return Request.validateData(Request.data.BODY, schemaName)
 }
 

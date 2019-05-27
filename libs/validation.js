@@ -25,7 +25,7 @@ Validation.isEmail = function(val) {
 }
 
 Validation.isScore = function(val) {
-  return validator.isInt(String(val), {min: 1, max: 10})
+  return validator.isInt(String(val), {min:1, max: 10})
 }
 
 Validation.isPassword = function(password) {

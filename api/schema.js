@@ -3,16 +3,16 @@
 let Schema = {}
 
 Schema.names = {
-  ID: 'ID',
   SIGNUP: 'signup',
   LOGIN: 'login',
-  REFRESH_TOKEN: 'refresh-token'
+  REFRESH_TOKEN: 'refresh-token',
+  IDEA: 'idea'
 }
 
 Schema.formats = {
-  ID: 'ID',
   EMAIL: 'EMAIL',
-  PASSWORD: 'PASSWORD'
+  PASSWORD: 'PASSWORD',
+  SCORE: 'SCORE'
 }
 
 module.exports = Schema

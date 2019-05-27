@@ -30,4 +30,13 @@ UserCtrl.signup = async function(req, res, next) {
   }
 }
 
+UserCtrl.getMe = async function(req, res, next) {
+  try {
+    const user = req.user
+    return Response.sendData(res, user.getJSON(), Response.status.OK)
+  } catch (err) {
+    return next(err)
+  }
+}
+
 module.exports = UserCtrl

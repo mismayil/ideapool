@@ -11,8 +11,7 @@ let loginSchema = {
   properties: {
     email: {
       type: 'string',
-      default: '',
-      minLength: 1,
+      notEmpty: true,
       errors: {
         required: {
           error: Response.errors.EMAIL_REQUIRED
@@ -21,8 +20,7 @@ let loginSchema = {
     },
     password: {
       type: 'string',
-      minLength: 1,
-      default: '',
+      notEmpty: true,
       errors: {
         required: {
           error: Response.errors.PASSWORD_REQUIRED
