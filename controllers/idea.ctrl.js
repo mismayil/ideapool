@@ -50,7 +50,7 @@ IdeaCtrl.updateIdea = async function(req, res, next) {
 
     idea = await Idea.findByIdAndUpdate(idea.id, {content, impact, ease, confidence}, {new: true})
 
-    return Response.sendData(res, idea.getJSON())
+    return Response.sendData(res, idea.getJSON(), Response.status.OK)
   } catch (err) {
     return next(err)
   }
