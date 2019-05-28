@@ -12,9 +12,7 @@ let refreshTokenSchema = {
           type: 'string',
           notEmpty: true,
           errors: {
-            required: {
-              error: Response.errors.REFRESH_TOKEN_REQUIRED
-            }
+            required: Response.errors.REFRESH_TOKEN_REQUIRED
           }
         }
     },

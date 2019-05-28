@@ -14,12 +14,8 @@ let signupSchema = {
       format: APISchema.formats.EMAIL,
       notEmpty: true,
       errors: {
-        required: {
-          error: Response.errors.EMAIL_REQUIRED
-        },
-        format: {
-          error: Response.errors.INVALID_EMAIL
-        }
+        required: Response.errors.EMAIL_REQUIRED,
+        format: Response.errors.INVALID_EMAIL
       }
     },
     password: {
@@ -27,21 +23,15 @@ let signupSchema = {
       format: APISchema.formats.PASSWORD,
       notEmpty: true,
       errors: {
-        required: {
-          error: Response.errors.PASSWORD_REQUIRED
-        },
-        format: {
-          error: Response.errors.INVALID_PASSWORD
-        }
+        required: Response.errors.PASSWORD_REQUIRED,
+        format: Response.errors.INVALID_PASSWORD
       }
     },
     name: {
       type: 'string',
       notEmpty: true,
       errors: {
-        required: {
-          error: Response.errors.NAME_REQUIRED
-        }
+        required: Response.errors.NAME_REQUIRED
       }
     }
   },

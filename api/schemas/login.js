@@ -12,18 +12,14 @@ let loginSchema = {
       type: 'string',
       notEmpty: true,
       errors: {
-        required: {
-          error: Response.errors.EMAIL_REQUIRED
-        }
+        required: Response.errors.EMAIL_REQUIRED
       }
     },
     password: {
       type: 'string',
       notEmpty: true,
       errors: {
-        required: {
-          error: Response.errors.PASSWORD_REQUIRED
-        }
+        required: Response.errors.PASSWORD_REQUIRED
       }
     }
   },
