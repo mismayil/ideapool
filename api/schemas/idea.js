@@ -18,10 +18,7 @@ let ideaSchema = {
       }
     },
     impact: {
-      anyOf: [
-        {type: 'number'},
-        {type: 'string'}
-      ],
+      type: ['string', 'number'],
       notEmpty: true,
       number: true,
       integer: true,
@@ -37,10 +34,7 @@ let ideaSchema = {
       }
     },
     ease: {
-      anyOf: [
-        {type: 'number'},
-        {type: 'string'}
-      ],
+      type: ['string', 'number'],
       notEmpty: true,
       number: true,
       integer: true,
@@ -56,10 +50,7 @@ let ideaSchema = {
       }
     },
     confidence: {
-      anyOf: [
-        {type: 'number'},
-        {type: 'string'}
-      ],
+      type: ['string', 'number'],
       notEmpty: true,
       number: true,
       integer: true,

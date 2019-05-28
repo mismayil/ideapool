@@ -9,14 +9,14 @@ let loginSchema = {
   type: 'object',
   properties: {
     email: {
-      type: 'string',
+      type: ['string', 'null'],
       notEmpty: true,
       errors: {
         required: Response.errors.EMAIL_REQUIRED
       }
     },
     password: {
-      type: 'string',
+      type: ['string', 'null'],
       notEmpty: true,
       errors: {
         required: Response.errors.PASSWORD_REQUIRED

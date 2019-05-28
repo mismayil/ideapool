@@ -58,12 +58,12 @@ app.set('init', async function() {
     }
 })
 
-let port = utils.normalizePort(config.get('server.PORT'));
+let port = process.env.PORT || utils.normalizePort(config.get('server.PORT'))
 app.set('port', port);
 
 let server = http.createServer(app);
 
-server.listen(process.env.PORT || port);
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 

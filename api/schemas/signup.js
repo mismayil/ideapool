@@ -10,7 +10,7 @@ let signupSchema = {
   type: 'object',
   properties: {
     email: {
-      type: 'string',
+      type: ['string', 'null'],
       format: APISchema.formats.EMAIL,
       notEmpty: true,
       errors: {
@@ -19,7 +19,7 @@ let signupSchema = {
       }
     },
     password: {
-      type: 'string',
+      type: ['string', 'null'],
       format: APISchema.formats.PASSWORD,
       notEmpty: true,
       errors: {
@@ -28,7 +28,7 @@ let signupSchema = {
       }
     },
     name: {
-      type: 'string',
+      type: ['string', 'null'],
       notEmpty: true,
       errors: {
         required: Response.errors.NAME_REQUIRED

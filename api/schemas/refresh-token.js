@@ -9,7 +9,7 @@ let refreshTokenSchema = {
     type: 'object',
     properties: {
         refresh_token: {
-          type: 'string',
+          type: ['string', 'null'],
           notEmpty: true,
           errors: {
             required: Response.errors.REFRESH_TOKEN_REQUIRED
