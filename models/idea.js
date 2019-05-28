@@ -1,6 +1,6 @@
 'use strict';
 
-const shortid = require('shortid')
+const shortid = require('short-uuid')
 const moment = require('moment')
 
 const mongoose = require(__basedir+'/libs/mongoose')

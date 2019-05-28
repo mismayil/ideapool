@@ -2,7 +2,6 @@
 
 const validator = require('validator')
 const passwordValidator = require('password-validator')
-const shortid = require('shortid')
 
 let passwordSchema = new passwordValidator()
 
@@ -30,10 +29,6 @@ Validation.isScore = function(val) {
 
 Validation.isPassword = function(password) {
   return passwordSchema.validate(password)
-}
-
-Validation.isID = function(id) {
-  return shortid.isValid(id)
 }
 
 module.exports = Validation
