@@ -102,7 +102,7 @@ Request.validateData = function(obj, schemaName) {
 
     let schemaObject = ajv.getSchema(schemaName)
     let schema = schemaObject.schema
-
+    console.log(ajv.errors)
     if (!_.isEmpty(ajv.errors)) {
       let requiredError = null
       let validationErrors = []

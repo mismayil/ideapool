@@ -9,7 +9,7 @@ let ideaSchema = {
   type: 'object',
   properties: {
     content: {
-      type: 'string',
+      type: ['string', 'null'],
       notEmpty: true,
       maxLength: 255,
       errors: {
@@ -18,7 +18,7 @@ let ideaSchema = {
       }
     },
     impact: {
-      type: ['string', 'number'],
+      type: ['number', 'null'],
       notEmpty: true,
       number: true,
       integer: true,
@@ -34,7 +34,7 @@ let ideaSchema = {
       }
     },
     ease: {
-      type: ['string', 'number'],
+      type: ['number', 'null'],
       notEmpty: true,
       number: true,
       integer: true,
@@ -50,7 +50,7 @@ let ideaSchema = {
       }
     },
     confidence: {
-      type: ['string', 'number'],
+      type: ['number', 'null'],
       notEmpty: true,
       number: true,
       integer: true,
