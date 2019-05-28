@@ -43,12 +43,12 @@ IdeaCtrl.updateIdea = async function(req, res, next) {
     const key = req.params.id
     const {content, impact, ease, confidence} = req.body
     const user = req.user
-    const idea = await Idea.findOne({key: key})
+    let idea = await Idea.findOne({key: key})
 
     if (!idea) return Response.sendError(res, Response.errors.IDEA_NOT_FOUND(key), Response.status.CONFLICT)
     if (idea.user != user.id) return Response.sendError(res, Response.errors.UNAUTHORIZED_UPDATE, Response.status.CONFLICT)
 
-    await Idea.findByIdAndUpdate(idea.id, {content, impact, ease, confidence})
+    idea = await Idea.findByIdAndUpdate(idea.id, {content, impact, ease, confidence}, {new: true})
 
     return Response.sendData(res, idea.getJSON())
   } catch (err) {
