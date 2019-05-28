@@ -1,9 +1,6 @@
 'use strict';
 
-const _ = require('lodash')
-
 const utils = require(__basedir+'/libs/utils')
-const logger = require(__basedir+'/libs/logger')
 const User = require(__basedir+'/models/user')
 const Response = require(__basedir+'/api/response')
 

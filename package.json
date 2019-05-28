@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=dev nodemon index.js",
     "start:production": "NODE_ENV=production node index.js",
+    "lint": "./node_modules/eslint/bin/eslint.js .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -45,5 +46,8 @@
     "uuid": "^3.3.2",
     "validator": "^11.0.0",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
   }
 }

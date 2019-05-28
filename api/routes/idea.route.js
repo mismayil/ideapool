@@ -20,4 +20,6 @@ router.put('/:id',
   IdeaCtrl.updateIdea
 )
 
+router.get('/', IdeaCtrl.getIdeas)
+
 module.exports = router

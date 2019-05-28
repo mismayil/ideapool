@@ -1,13 +1,10 @@
 'use strict';
 
-const jwt = require('jsonwebtoken')
-const config = require('config')
 const passport = require('passport')
 const _ = require('lodash')
 const validator = require('validator')
 
 const ajv = require(__basedir+'/libs/ajv')
-const logger = require(__basedir+'/libs/logger')
 const Response = require(__basedir+'/api/response')
 const APISchema = require(__basedir+'/api/schema')
 const Validation = require(__basedir+'/libs/validation')
@@ -105,8 +102,6 @@ Request.validateData = function(obj, schemaName) {
 
     let schemaObject = ajv.getSchema(schemaName)
     let schema = schemaObject.schema
-
-    console.log(ajv.errors)
 
     if (!_.isEmpty(ajv.errors)) {
       let requiredError = null

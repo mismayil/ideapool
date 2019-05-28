@@ -59,7 +59,8 @@ Response.errors = {
   CONFIDENCE_MIN_0: 'Confidence must be greater than 0',
   IDEA_NOT_FOUND: key => `idea of id ${key} can not be found`,
   UNAUTHORIZED_DELETE: "You don't have permission to delete this idea",
-  UNAUTHORIZED_UPDATE: "You don't have permission to update this idea"
+  UNAUTHORIZED_UPDATE: "You don't have permission to update this idea",
+  INVALID_PAGE: 'page must be great than 0'
 }
 
 Response.isOK = function(status) {

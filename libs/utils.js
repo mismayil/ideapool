@@ -28,7 +28,7 @@ utils.getBind = function(addr) {
 }
 
 utils.generateJWT = function(user) {
-    return jwt.sign({user: user}, config.get('api.SECRET'), {expiresIn: 24 * 60 * 60})
+    return jwt.sign({user: user}, config.get('api.SECRET'), {expiresIn: TEN_MINS})
 }
 
 utils.generateToken = function() {

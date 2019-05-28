@@ -1,7 +1,6 @@
 'use strict';
 
 const Response = require(__basedir+'/api/response')
-const APISchema = require(__basedir+'/api/schema')
 
 let ideaSchema = {
   '$id': 'http://api-ideapool.herokuapp.com/schemas/idea.json',
