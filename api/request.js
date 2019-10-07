@@ -102,7 +102,7 @@ Request.validateData = function(obj, schemaName) {
 
     let schemaObject = ajv.getSchema(schemaName)
     let schema = schemaObject.schema
-    console.log(ajv.errors)
+    
     if (!_.isEmpty(ajv.errors)) {
       let requiredError = null
       let validationErrors = []
@@ -111,7 +111,7 @@ Request.validateData = function(obj, schemaName) {
         if (error.keyword === 'required') {
           let prop = error.params.missingProperty
           let property = schema.properties[prop]
-          
+
           if (property && property.errors && property.errors.required) {
             requiredError = property.errors.required
           }
@@ -120,7 +120,7 @@ Request.validateData = function(obj, schemaName) {
         } else {
           let prop = error.dataPath.substring(1)
           let property = _.get(schema.properties, prop)
-          
+
           if (property && property.errors) {
             if (error.keyword === 'notEmpty' && property.errors.required) {
               requiredError = property.errors.required
