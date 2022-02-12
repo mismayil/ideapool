@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/mismayil/ideapool#readme",
   "dependencies": {
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "ajv-keywords": "^3.4.0",
     "ajv-moment": "^2.0.3",
     "bcryptjs": "^2.4.3",
